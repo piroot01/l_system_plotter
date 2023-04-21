@@ -1,1 +1,1 @@
-# L system plotter
+# L-system plotter
