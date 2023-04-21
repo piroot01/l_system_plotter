@@ -35,9 +35,9 @@ public:
     void Execute() override;
 
 private:
-    const std::string outputName = "out";
-    const double xrange = 10;
-    const double yrange = 10;
+    const std::string m_outputName = "out";
+    const double m_xrange = 10;
+    const double m_yrange = 10;
 
 };
 

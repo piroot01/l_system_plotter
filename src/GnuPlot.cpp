@@ -5,21 +5,21 @@
 #include "GnuPlot.hpp"
 
 void GnuPlot::SendCommand(const std::string& cmd) {
-    if (!pipe)
+    if (!m_pipe)
         return;
 
-    buffer.push_back(cmd);
+    m_buffer.push_back(cmd);
 }
 
 void GnuPlot::PrintBuffer() {
-    for (const auto& cmd : buffer)
+    for (const auto& cmd : m_buffer)
         std::cout << cmd << '\n';
 }
 
 void GnuPlot::Execute() {
-    if (!pipe)
+    if (!m_pipe)
         return;
 
-    for (const auto& cmd : buffer)
-        fputs((cmd + '\n').c_str(), pipe);
+    for (const auto& cmd : m_buffer)
+        fputs((cmd + '\n').c_str(), m_pipe);
 }

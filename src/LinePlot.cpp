@@ -14,8 +14,8 @@ LinePlot::LinePlot() : GnuPlot(true) {
     SendCommand("unset ytics");
     SendCommand("unset key");
 
-    SetOutputName(this->outputName);
-    SetPlotRange(this->xrange, this->yrange);
+    SetOutputName(this->m_outputName);
+    SetPlotRange(this->m_xrange, this->m_yrange);
 }
 
 void LinePlot::SetPlotRange(const double xrange, const double yrange) {

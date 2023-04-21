@@ -10,12 +10,12 @@
 class GnuPlot {
 public:
     inline GnuPlot(bool persist = true) {
-        pipe = popen(persist ? "gnuplot -persist" : "gnuplot", "w");
+        m_pipe = popen(persist ? "gnuplot -persist" : "gnuplot", "w");
     }
 
     inline virtual ~GnuPlot() {
-        if (pipe)
-            pclose(pipe);
+        if (m_pipe)
+            pclose(m_pipe);
     }
 
     void SendCommand(const std::string& cmd);
@@ -26,8 +26,8 @@ protected:
     GnuPlot(const GnuPlot&) = delete;
     void operator=(const GnuPlot&) = delete;
 
-    FILE* pipe;
-    std::vector<std::string> buffer;
+    FILE* m_pipe;
+    std::vector<std::string> m_buffer;
 
 };
 
