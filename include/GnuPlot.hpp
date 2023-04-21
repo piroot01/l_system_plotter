@@ -19,7 +19,7 @@ public:
     }
 
     void SendCommand(const std::string& cmd);
-    void Execute();
+    virtual void Execute();
     void PrintBuffer();
 
 protected:
