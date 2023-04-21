@@ -1,6 +1,14 @@
 #include <iostream>
 
+#include "LinePlot.hpp"
+
 int main() {
-    std::cout << "L-System" << '\n';
+    LinePlot lp;
+
+    lp.SetOutputName("test");
+    lp.DummyPlot();
+    lp.PrintBuffer();
+    lp.Execute();
+
     return 0;
 }
