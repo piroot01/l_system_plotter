@@ -6,7 +6,7 @@
 Line::Line(const Point& start, const Point& end, double width, std::string color)
     : start(start), end(end), width(width), color(color) {}
 
-LinePlot::LinePlot() : GnuPlot(true) {
+LinePlot::LinePlot(void) : GnuPlot(true) {
     SendCommand("set terminal pdfcairo font 'Times, 12' size 20cm, 20cm");
     SendCommand("unset xlabel");
     SendCommand("unset ylabel");
@@ -27,9 +27,9 @@ void LinePlot::SetOutputName(const std::string& outName) {
     SendCommand("set output '" + outName + ".pdf'");
 }
 
-LinePlot::~LinePlot() {}
+LinePlot::~LinePlot(void) {}
 
-void LinePlot::Execute() {
+void LinePlot::Execute(void) {
     SendCommand("plot NaN");
     GnuPlot::Execute();
 }

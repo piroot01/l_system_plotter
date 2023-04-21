@@ -20,20 +20,22 @@ int main() {
     lp.PrintBuffer();
     lp.Execute();
 */
-    std::vector<char> alphabet = {'0', '1', '[', ']'};
-    std::unordered_set<char> constants = {'[', ']'};
-    std::string axiom = "0";
+    std::vector<char> alphabet = {'F', 'G', '+', '-'};
+    std::unordered_set<char> constants = {'+', '-'};
+    std::string axiom = "F";
     std::unordered_map<char, std::string> rules = {
-        {'1', "11"},
-        {'0', "1[0]0"},
+        {'F', "F+G"},
+        {'G', "F-G"},
     };
 
     LSystem lSys(alphabet, constants, axiom, rules);
 
-    lSys.SetNumberOfIterations(10);
+    lSys.SetNumberOfIterations(5);
     lSys.Iterate();
 
-    lSys.Print();
+    std::cout << *lSys.Get() << '\n';
+
+    //lSys.Print();
 
 
     return 0;

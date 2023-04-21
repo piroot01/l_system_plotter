@@ -1,5 +1,6 @@
 #include "LSystem.hpp"
 #include <cstdint>
+#include <string>
 #include <unordered_map>
 #include <iostream>
 #include <unordered_set>
@@ -30,4 +31,8 @@ void LSystem::Iterate(void) {
 
 void LSystem::Print(void) {
     std::cout << m_derivation << '\n';
+}
+
+std::string* LSystem::Get(void) {
+    return &m_derivation;
 }

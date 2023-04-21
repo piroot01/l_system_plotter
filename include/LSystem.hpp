@@ -15,6 +15,7 @@ public:
     void SetNumberOfIterations(uint16_t iterCount);
     void Iterate(void);
     void Print(void);
+    std::string* Get(void);
 
 private:
     std::vector<char> m_alphabet;

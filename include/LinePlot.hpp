@@ -34,7 +34,7 @@ public:
 
     void Execute(void) override;
 
-private:
+protected:
     const std::string m_outputName = "out";
     const double m_xrange = 10;
     const double m_yrange = 10;
