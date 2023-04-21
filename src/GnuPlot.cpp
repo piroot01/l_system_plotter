@@ -11,12 +11,12 @@ void GnuPlot::SendCommand(const std::string& cmd) {
     m_buffer.push_back(cmd);
 }
 
-void GnuPlot::PrintBuffer() {
+void GnuPlot::PrintBuffer(void) {
     for (const auto& cmd : m_buffer)
         std::cout << cmd << '\n';
 }
 
-void GnuPlot::Execute() {
+void GnuPlot::Execute(void) {
     if (!m_pipe)
         return;
 

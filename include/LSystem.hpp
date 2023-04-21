@@ -10,7 +10,7 @@
 
 class LSystem {
 public:
-    LSystem(const std::vector<char>& alphabet, const std::unordered_set<char>& m_alphabet, const std::string& axiom, const std::unordered_map<char, std::string>& rules);
+    LSystem(const std::vector<char>& alphabet, const std::unordered_set<char>& m_constances, const std::string& axiom, const std::unordered_map<char, std::string>& rules);
 
     void SetNumberOfIterations(uint16_t iterCount);
     void Iterate(void);

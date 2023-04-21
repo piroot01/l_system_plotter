@@ -24,15 +24,15 @@ struct Line {
 
 class LinePlot : public GnuPlot {
 public:
-    LinePlot();
-    virtual ~LinePlot();
+    LinePlot(void);
+    virtual ~LinePlot(void);
 
     void SetPlotRange(const double xrange, const double yrange);
     void SetOutputName(const std::string& outName);
 
     void PlotLine(const Line& line);
 
-    void Execute() override;
+    void Execute(void) override;
 
 private:
     const std::string m_outputName = "out";

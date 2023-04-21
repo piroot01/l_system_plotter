@@ -13,14 +13,14 @@ public:
         m_pipe = popen(persist ? "gnuplot -persist" : "gnuplot", "w");
     }
 
-    inline virtual ~GnuPlot() {
+    inline virtual ~GnuPlot(void) {
         if (m_pipe)
             pclose(m_pipe);
     }
 
     void SendCommand(const std::string& cmd);
-    virtual void Execute();
-    void PrintBuffer();
+    virtual void Execute(void);
+    void PrintBuffer(void);
 
 protected:
     GnuPlot(const GnuPlot&) = delete;
