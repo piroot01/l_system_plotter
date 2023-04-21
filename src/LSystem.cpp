@@ -5,8 +5,8 @@
 #include <iostream>
 #include <unordered_set>
 
-LSystem::LSystem(const std::vector<char>& alphabet, const std::unordered_set<char>& constances, const std::string& axiom, const std::unordered_map<char, std::string>& rules)
-    : m_alphabet(alphabet), m_constances(constances), m_axiom(axiom), m_rules(rules) {
+LSystem::LSystem(const std::unordered_set<char>& constances, const std::string& axiom, const std::unordered_map<char, std::string>& rules)
+    : m_constances(constances), m_axiom(axiom), m_rules(rules) {
     SetNumberOfIterations(m_defaultIterCount);
 }
 

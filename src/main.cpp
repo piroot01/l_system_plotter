@@ -8,23 +8,25 @@
 #include "LSystemPlot.hpp"
 
 int main() {
-    std::vector<char> alphabet = {'M', 'S', '+', '-', '[', ']'};
     std::unordered_set<char> constants = {'+', '-', '[', ']'};
-    std::string axiom = "M";
+    std::string axiom = "X";
     std::unordered_map<char, std::string> rules = {
-        {'M', "S[+M][-M]SM"},
-        {'S', "SS"},
+        {'X', "F-[[X]+X]+F[+FX]-X"},
+        {'F', "FF"},
     };
 
-    LSystem lSys(alphabet, constants, axiom, rules);
-
-    lSys.SetNumberOfIterations(7);
+    LSystem lSys(constants, axiom, rules);
+    lSys.SetNumberOfIterations(6);
     lSys.Iterate();
 
-    lSys.Print();
-    LSystemPlot lSysPlot(0, 0.15, 45);
+    LSystemPlot lSysPlot(90, 0.2, 22.5);
 
     lSysPlot.LoadModel(lSys.Get());
+
+    lSysPlot.SetPosition(0, -20);
+    lSysPlot.UseGrad();
+    lSysPlot.SetLineWidth(10);
+    lSysPlot.SetLineGradient(300);
 
     lSysPlot.Plot();
 
