@@ -3,7 +3,16 @@
 #define L_SYSTEM_PLOT_H_
 #ifdef L_SYSTEM_PLOT_H_
 
+#include <vector>
+
 #include "LinePlot.hpp"
+
+constexpr double PI = 3.1415926535;
+
+struct Pen {
+    Point position;
+    double direction;
+};
 
 class LSystemPlot : public LinePlot {
 public:
@@ -12,13 +21,21 @@ public:
     void Plot(void);
 
 private:
-    Point m_pen;
-    double m_dir;
+    Point CalculateNewPoint(void);
+    void DrawLine(void);
+    void Move(void);
+    void Rotate(double angle_deg);
+    void Push(void);
+    void Pop(void);
+
+private:
+    Pen m_pen;
 
     std::string* m_model;
-    double m_initAngle_deg;
     double m_stepSize;
     double m_stepAngle_deg;
+
+    std::vector<Pen> lifo;
 
 };
 

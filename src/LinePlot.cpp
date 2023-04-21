@@ -3,6 +3,19 @@
 #include "GnuPlot.hpp"
 #include "LinePlot.hpp"
 
+Point Point::operator+(const Point& point) {
+    Point p;
+    p.x = this->x + point.x;
+    p.y = this->y + point.y;
+    return p;
+}
+
+Point& Point::operator+=(const Point& point) {
+    this->x += point.x;
+    this->y += point.y;
+    return *this;
+}
+
 Line::Line(const Point& start, const Point& end, double width, std::string color)
     : start(start), end(end), width(width), color(color) {}
 
@@ -19,8 +32,8 @@ LinePlot::LinePlot(void) : GnuPlot(true) {
 }
 
 void LinePlot::SetPlotRange(const double xrange, const double yrange) {
-    SendCommand("set xrange [0:" + std::to_string(xrange) + "]");
-    SendCommand("set yrange [0:" + std::to_string(yrange) + "]");
+    SendCommand("set xrange [-20:" + std::to_string(xrange) + "]");
+    SendCommand("set yrange [-20:" + std::to_string(yrange) + "]");
 }
 
 void LinePlot::SetOutputName(const std::string& outName) {

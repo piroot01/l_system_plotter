@@ -10,7 +10,8 @@
 
 struct Point {
     double x, y;
-
+    Point operator+(const Point& point);
+    Point& operator+=(const Point& point);
 };
 
 struct Line {
@@ -36,8 +37,8 @@ public:
 
 protected:
     const std::string m_outputName = "out";
-    const double m_xrange = 10;
-    const double m_yrange = 10;
+    const double m_xrange = 20;
+    const double m_yrange = 20;
 
 };
 
