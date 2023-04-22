@@ -4,6 +4,8 @@
 #ifdef L_SYSTEM_PLOT_H_
 
 #include <vector>
+#include <cstdint>
+#include <memory>
 
 #include "LinePlot.hpp"
 
@@ -15,6 +17,25 @@ struct Pen {
     double width;
     uint32_t iteration;
 };
+
+namespace LineModifier {
+
+class LineWidth {
+public:
+    LineWidth(void) = default;
+    ~LineWidth(void) = default;
+    void SetLineGradient(const double grad);
+
+    inline double LogGrad(const uint32_t iteration);
+
+    double m_lineGrad;
+
+public:
+    friend class LSystemPlot;
+
+};
+
+}
 
 class LSystemPlot : public LinePlot {
 public:
@@ -36,10 +57,10 @@ private:
     void Rotate(double angle_deg);
     void Push(void);
     void Pop(void);
-    double LogGrad(const uint32_t iter);
 
 private:
     Pen m_pen;
+    LineModifier::LineWidth m_widthMod;
 
     std::string* m_model;
     double m_stepSize;
@@ -48,7 +69,6 @@ private:
 
     std::vector<Pen> lifo;
 
-    double m_lineGrad;
     bool m_useGrad = false;
 
     const double m_defaultLineWidth = 1;

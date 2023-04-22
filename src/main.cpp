@@ -26,7 +26,7 @@ int main() {
     lSysPlot.SetPosition(0, -20);
     lSysPlot.UseGrad();
     lSysPlot.SetLineWidth(10);
-    lSysPlot.SetLineGradient(300);
+    lSysPlot.SetLineGradient(200);
 
     lSysPlot.Plot();
 

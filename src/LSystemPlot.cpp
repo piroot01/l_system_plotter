@@ -8,73 +8,68 @@ LSystemPlot::LSystemPlot(double initAngle, double stepSize, double stepAngle)
     : m_stepSize(stepSize), m_stepAngle_deg(stepAngle) {
     SetPosition(m_defaultPosition);
     SetLineWidth(m_defaultLineWidth);
-    this->m_lineCount = 0;
-    this->m_pen.direction = initAngle;
-    this->m_pen.position = {0, -20};
+    m_lineCount = 0;
+    m_pen.direction = initAngle;
+    m_pen.position = {0, -20};
 }
 
 void LSystemPlot::UseGrad(void) {
-    this->m_useGrad = true;
-    this->m_lineGrad = this->m_defaultLineGrad;
+    m_useGrad = true;
 }
 
 void LSystemPlot::SetPosition(const double x, const double y) {
-    this->m_pen.position = {x, y};
+    m_pen.position = {x, y};
 }
 
 void LSystemPlot::SetPosition(const Point& point) {
-    this->m_pen.position = point;
+    m_pen.position = point;
 }
 
 void LSystemPlot::LoadModel(std::string* model) {
-    this->m_model = model;
+    m_model = model;
 }
 
 void LSystemPlot::SetLineGradient(double grad) {
-    this->m_lineGrad = grad;
+    m_widthMod.SetLineGradient(grad);
 }
 
 void LSystemPlot::SetLineWidth(double width) {
-    this->m_pen.width = width;
+    m_pen.width = width;
 }
 
 Point LSystemPlot::CalculateNewPoint(void) {
-    return {std::cos(m_pen.direction * PI / 180) * this->m_stepSize, std::sin(m_pen.direction * PI / 180) * this->m_stepSize};
-}
-
-double LSystemPlot::LogGrad(const uint32_t iter) {
-    return (1 + std::log(this->m_lineGrad)) / (1 + std::log(this->m_lineGrad + iter));
+    return {std::cos(m_pen.direction * PI / 180) * m_stepSize, std::sin(m_pen.direction * PI / 180) * m_stepSize};
 }
 
 void LSystemPlot::DrawLine(void) {
     Point t = CalculateNewPoint();
 
     if (m_useGrad)
-        this->m_pen.width *= LogGrad(this->m_pen.iteration);
+        m_pen.width *= m_widthMod.LogGrad(m_pen.iteration);
 
-    Line line(this->m_pen.position, this->m_pen.position + t, m_pen.width, "#FF00FF");
+    Line line(m_pen.position, m_pen.position + t, m_pen.width, "#FF00FF");
     PlotLine(line);
     Move();
 
-    this->m_pen.iteration++;
+    m_pen.iteration++;
 }
 
 void LSystemPlot::Move(void) { 
-    this->m_pen.position += CalculateNewPoint();
+    m_pen.position += CalculateNewPoint();
 }
 
 void LSystemPlot::Rotate(double angle_deg) {
-    this->m_pen.direction += angle_deg;
-    while (this->m_pen.direction > 360.0)
-        this->m_pen.direction -= 360;
+    m_pen.direction += angle_deg;
+    while (m_pen.direction > 360.0)
+        m_pen.direction -= 360;
 }
 
 void LSystemPlot::Push(void) {
-    this->lifo.push_back(this->m_pen);
+    this->lifo.push_back(m_pen);
 }
 
 void LSystemPlot::Pop(void) {
-    this->m_pen = this->lifo.back();
+    m_pen = this->lifo.back();
     this->lifo.pop_back();
 }
 
@@ -99,4 +94,12 @@ void LSystemPlot::Plot(void) {
     }
 
     LinePlot::Execute();
+}
+
+void LineModifier::LineWidth::SetLineGradient(const double grad) {
+    m_lineGrad = grad;
+}
+
+double LineModifier::LineWidth::LogGrad(const uint32_t iteration) {
+    return (1 + std::log(m_lineGrad)) / (1 + std::log(m_lineGrad + iteration));
 }
