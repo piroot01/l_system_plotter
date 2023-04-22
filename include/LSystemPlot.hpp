@@ -6,6 +6,7 @@
 #include <vector>
 #include <cstdint>
 #include <memory>
+#include <cmath>
 
 #include "LinePlot.hpp"
 
@@ -18,33 +19,65 @@ struct Pen {
     uint32_t iteration;
 };
 
-namespace LineModifier {
+struct Color {
+    uint8_t red;
+    uint8_t green;
+    uint8_t blue;
+};
 
-class LineWidth {
+class LineModifier {
 public:
-    LineWidth(void) = default;
-    ~LineWidth(void) = default;
-    void SetLineGradient(const double grad);
+    virtual ~LineModifier() = default;
+    virtual void Apply(Pen& pen) = 0;
+};
 
-    inline double LogGrad(const uint32_t iteration);
+class LineWidth : public LineModifier {
+public:
+    enum class Deform {
+        Constant,
+        Log,
+    };
 
+public:
+    LineWidth() : m_deform(Deform::Constant) {}
+
+    void SetLineGradient(const double coef);
+    void SetDeform(const Deform& deform);
+    void Apply(Pen& pen) override;
+
+private:
+    inline double Log(const uint32_t iteration) {
+        return (std::log(1 + m_lineGrad) / std::log(m_lineGrad + iteration));
+    }
+
+private:
     double m_lineGrad;
-
-public:
-    friend class LSystemPlot;
+    Deform m_deform;
 
 };
 
-}
+/*
+class LineColor : public LineModifier {
+public:
+    enum class Colors {
+        Green,
+        Brown,
+        Black,
+    };
+
+public:
+    LineColor(const Color& color = Green);
+
+*/
 
 class LSystemPlot : public LinePlot {
 public:
     LSystemPlot(double initAngle = 0, double stepSize = 1, double stepAngle = 90);
     void LoadModel(std::string* model);
+    void LoadLineModifier(const std::shared_ptr<LineModifier>& mod);
     void Plot(void);
 
     void SetLineWidth(const double width);
-    void SetLineGradient(const double grad);
     void SetPosition(const double x, const double y);
     void SetPosition(const Point& position);
 
@@ -60,19 +93,16 @@ private:
 
 private:
     Pen m_pen;
-    LineModifier::LineWidth m_widthMod;
+    std::vector<std::shared_ptr<LineModifier>> m_lineMods;
 
     std::string* m_model;
     double m_stepSize;
     double m_stepAngle_deg;
-    uint32_t m_lineCount;
+    uint32_t m_segCount;
 
     std::vector<Pen> lifo;
 
-    bool m_useGrad = false;
-
     const double m_defaultLineWidth = 1;
-    const double m_defaultLineGrad = 100;
     const Point m_defaultPosition = {0, 0};
 };
 

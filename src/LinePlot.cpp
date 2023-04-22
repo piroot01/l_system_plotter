@@ -20,7 +20,7 @@ Line::Line(const Point& start, const Point& end, double width, std::string color
     : start(start), end(end), width(width), color(color) {}
 
 LinePlot::LinePlot(void) : GnuPlot(true) {
-    SendCommand("set terminal pdfcairo font 'Times, 12' size 20cm, 20cm");
+    SendCommand("set terminal pdfcairo rounded font 'Times, 12' size 20cm, 20cm");
     SendCommand("unset xlabel");
     SendCommand("unset ylabel");
     SendCommand("unset xtics");

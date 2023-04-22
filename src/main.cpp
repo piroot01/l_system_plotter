@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 #include <unordered_map>
 #include <vector>
 #include <unordered_set>
@@ -16,17 +17,20 @@ int main() {
     };
 
     LSystem lSys(constants, axiom, rules);
-    lSys.SetNumberOfIterations(6);
+    lSys.SetNumberOfIterations(5);
     lSys.Iterate();
 
-    LSystemPlot lSysPlot(90, 0.2, 22.5);
+    LSystemPlot lSysPlot(90, 0.5, 19);
 
     lSysPlot.LoadModel(lSys.Get());
 
+    auto lW = std::make_shared<LineWidth>();
+    lW->SetLineGradient(2);
+    lW->SetDeform(LineWidth::Deform::Constant);
+
+    lSysPlot.LoadLineModifier(lW);
     lSysPlot.SetPosition(0, -20);
-    lSysPlot.UseGrad();
-    lSysPlot.SetLineWidth(10);
-    lSysPlot.SetLineGradient(200);
+    lSysPlot.SetLineWidth(2);
 
     lSysPlot.Plot();
 

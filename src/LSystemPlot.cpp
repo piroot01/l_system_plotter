@@ -1,5 +1,6 @@
 #include <cmath>
 #include <iostream>
+#include <memory>
 
 #include "LSystemPlot.hpp"
 #include "LinePlot.hpp"
@@ -8,13 +9,8 @@ LSystemPlot::LSystemPlot(double initAngle, double stepSize, double stepAngle)
     : m_stepSize(stepSize), m_stepAngle_deg(stepAngle) {
     SetPosition(m_defaultPosition);
     SetLineWidth(m_defaultLineWidth);
-    m_lineCount = 0;
     m_pen.direction = initAngle;
     m_pen.position = {0, -20};
-}
-
-void LSystemPlot::UseGrad(void) {
-    m_useGrad = true;
 }
 
 void LSystemPlot::SetPosition(const double x, const double y) {
@@ -29,8 +25,8 @@ void LSystemPlot::LoadModel(std::string* model) {
     m_model = model;
 }
 
-void LSystemPlot::SetLineGradient(double grad) {
-    m_widthMod.SetLineGradient(grad);
+void LSystemPlot::LoadLineModifier(const std::shared_ptr<LineModifier>& mod) {
+    m_lineMods.push_back(mod);
 }
 
 void LSystemPlot::SetLineWidth(double width) {
@@ -44,14 +40,15 @@ Point LSystemPlot::CalculateNewPoint(void) {
 void LSystemPlot::DrawLine(void) {
     Point t = CalculateNewPoint();
 
-    if (m_useGrad)
-        m_pen.width *= m_widthMod.LogGrad(m_pen.iteration);
+    for (const auto& i : m_lineMods)
+        i->Apply(m_pen);
 
     Line line(m_pen.position, m_pen.position + t, m_pen.width, "#FF00FF");
     PlotLine(line);
     Move();
 
     m_pen.iteration++;
+    m_segCount++;
 }
 
 void LSystemPlot::Move(void) { 
@@ -93,13 +90,25 @@ void LSystemPlot::Plot(void) {
             continue;
     }
 
+    std::cout << m_segCount << '\n';
+
     LinePlot::Execute();
 }
 
-void LineModifier::LineWidth::SetLineGradient(const double grad) {
-    m_lineGrad = grad;
+void LineWidth::SetLineGradient(const double coef) {
+    m_lineGrad = std::pow(10, coef);
 }
 
-double LineModifier::LineWidth::LogGrad(const uint32_t iteration) {
-    return (1 + std::log(m_lineGrad)) / (1 + std::log(m_lineGrad + iteration));
+void LineWidth::SetDeform(const Deform& deform) {
+    m_deform = deform;
+}
+
+void LineWidth::Apply(Pen& pen) {
+    switch (m_deform) {
+    case Deform::Constant:
+        return;
+    case Deform::Log:
+        pen.width *= Log(pen.iteration);
+        break;
+    }
 }
