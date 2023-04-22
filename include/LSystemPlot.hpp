@@ -9,6 +9,7 @@
 #include <cmath>
 
 #include "LinePlot.hpp"
+#include "Colors.hpp"
 
 constexpr double PI = 3.1415926535;
 
@@ -17,18 +18,14 @@ struct Pen {
     double direction;
     double width;
     uint32_t iteration;
-};
-
-struct Color {
-    uint8_t red;
-    uint8_t green;
-    uint8_t blue;
+    std::string color;
 };
 
 class LineModifier {
 public:
     virtual ~LineModifier() = default;
     virtual void Apply(Pen& pen) = 0;
+
 };
 
 class LineWidth : public LineModifier {
@@ -56,24 +53,29 @@ private:
 
 };
 
-/*
 class LineColor : public LineModifier {
 public:
-    enum class Colors {
-        Green,
-        Brown,
-        Black,
+    enum class Coloring {
+        Homogenous,
     };
 
 public:
-    LineColor(const Color& color = Green);
+    LineColor() : m_baseColor(Colors::Black), m_coloring(Coloring::Homogenous) {}
 
-*/
+    void SetBaseColor(const std::string& color);
+    void SetColoringScheme(const Coloring& coloring);
+    void Apply(Pen& pen) override;
+
+private:
+    std::string m_baseColor;
+    Coloring m_coloring;
+
+};
 
 class LSystemPlot : public LinePlot {
 public:
     LSystemPlot(double initAngle = 0, double stepSize = 1, double stepAngle = 90);
-    void LoadModel(std::string* model);
+    void LoadModel(std::shared_ptr<std::string> model);
     void LoadLineModifier(const std::shared_ptr<LineModifier>& mod);
     void Plot(void);
 
@@ -84,7 +86,7 @@ public:
     void UseGrad(void);
 
 private:
-    Point CalculateNewPoint(void);
+    Point CalculateNewPoint(void) const;
     void DrawLine(void);
     void Move(void);
     void Rotate(double angle_deg);
@@ -95,7 +97,7 @@ private:
     Pen m_pen;
     std::vector<std::shared_ptr<LineModifier>> m_lineMods;
 
-    std::string* m_model;
+    std::shared_ptr<std::string> m_model;
     double m_stepSize;
     double m_stepAngle_deg;
     uint32_t m_segCount;
@@ -104,6 +106,7 @@ private:
 
     const double m_defaultLineWidth = 1;
     const Point m_defaultPosition = {0, 0};
+
 };
 
 #endif

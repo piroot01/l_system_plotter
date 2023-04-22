@@ -4,6 +4,7 @@
 
 #include "LSystemPlot.hpp"
 #include "LinePlot.hpp"
+#include <LSystem.hpp>
 
 LSystemPlot::LSystemPlot(double initAngle, double stepSize, double stepAngle) 
     : m_stepSize(stepSize), m_stepAngle_deg(stepAngle) {
@@ -11,6 +12,7 @@ LSystemPlot::LSystemPlot(double initAngle, double stepSize, double stepAngle)
     SetLineWidth(m_defaultLineWidth);
     m_pen.direction = initAngle;
     m_pen.position = {0, -20};
+    m_segCount = 0;
 }
 
 void LSystemPlot::SetPosition(const double x, const double y) {
@@ -21,7 +23,7 @@ void LSystemPlot::SetPosition(const Point& point) {
     m_pen.position = point;
 }
 
-void LSystemPlot::LoadModel(std::string* model) {
+void LSystemPlot::LoadModel(std::shared_ptr<std::string> model) {
     m_model = model;
 }
 
@@ -33,17 +35,17 @@ void LSystemPlot::SetLineWidth(double width) {
     m_pen.width = width;
 }
 
-Point LSystemPlot::CalculateNewPoint(void) {
+Point LSystemPlot::CalculateNewPoint(void) const {
     return {std::cos(m_pen.direction * PI / 180) * m_stepSize, std::sin(m_pen.direction * PI / 180) * m_stepSize};
 }
 
-void LSystemPlot::DrawLine(void) {
+void LSystemPlot::DrawLine() {
     Point t = CalculateNewPoint();
 
     for (const auto& i : m_lineMods)
         i->Apply(m_pen);
 
-    Line line(m_pen.position, m_pen.position + t, m_pen.width, "#FF00FF");
+    Line line(m_pen.position, m_pen.position + t, m_pen.width, m_pen.color);
     PlotLine(line);
     Move();
 
@@ -71,23 +73,28 @@ void LSystemPlot::Pop(void) {
 }
 
 void LSystemPlot::Plot(void) {
-    for (const auto& i : *m_model) {
-        if (i >= 'A' and i <= 'U')
+    size_t modelSize = m_model->size();
+
+    for (size_t i = 0; i < modelSize; ++i) {
+        auto current = (*m_model)[i];
+
+        if (current >= 'A' && current <= 'U') {
             DrawLine();
-        else if (i >= 'a' and i <= 'u')
+        } else if (current >= 'a' && current <= 'u') {
             Move();
-        else if (i == '|')
+        } else if (current == '|') {
             Rotate(180);
-        else if (i == '+')
+        } else if (current == '+') {
             Rotate(m_stepAngle_deg);
-        else if (i == '-')
+        } else if (current == '-') {
             Rotate(-m_stepAngle_deg);
-        else if (i == '[')
+        } else if (current == '[') {
             Push();
-        else if (i == ']')
+        } else if (current == ']') {
             Pop();
-        else
+        } else {
             continue;
+        }
     }
 
     std::cout << m_segCount << '\n';
@@ -109,6 +116,22 @@ void LineWidth::Apply(Pen& pen) {
         return;
     case Deform::Log:
         pen.width *= Log(pen.iteration);
+        break;
+    }
+}
+
+void LineColor::SetColoringScheme(const Coloring& coloring) {
+    m_coloring = coloring;
+}
+
+void LineColor::SetBaseColor(const std::string& color) {
+    m_baseColor = color;
+}
+
+void LineColor::Apply(Pen& pen) {
+    switch (m_coloring) {
+    case Coloring::Homogenous:
+        pen.color = m_baseColor;
         break;
     }
 }

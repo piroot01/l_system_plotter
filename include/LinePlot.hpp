@@ -7,6 +7,7 @@
 #include <string>
 
 #include "GnuPlot.hpp"
+#include "Colors.hpp"
 
 struct Point {
     double x, y;
@@ -15,7 +16,7 @@ struct Point {
 };
 
 struct Line {
-    Line(const Point& start, const Point& end, double width = 1, std::string color = "black");
+    Line(const Point& start, const Point& end, const double width = 1, const std::string& color = Colors::Black);
 
     Point start, end;
     double width;

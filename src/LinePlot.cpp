@@ -16,7 +16,7 @@ Point& Point::operator+=(const Point& point) {
     return *this;
 }
 
-Line::Line(const Point& start, const Point& end, double width, std::string color)
+Line::Line(const Point& start, const Point& end, const double width, const std::string& color)
     : start(start), end(end), width(width), color(color) {}
 
 LinePlot::LinePlot(void) : GnuPlot(true) {

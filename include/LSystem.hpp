@@ -7,6 +7,7 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <memory>
 
 class LSystem {
 public:
@@ -15,7 +16,7 @@ public:
     void SetNumberOfIterations(uint16_t iterCount);
     void Iterate(void);
     void Print(void);
-    std::string* Get(void);
+    std::shared_ptr<std::string> Get(void);
 
 private:
     std::unordered_set<char> m_constances;

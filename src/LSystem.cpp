@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <iostream>
 #include <unordered_set>
+#include <memory>
 
 LSystem::LSystem(const std::unordered_set<char>& constances, const std::string& axiom, const std::unordered_map<char, std::string>& rules)
     : m_constances(constances), m_axiom(axiom), m_rules(rules) {
@@ -33,6 +34,6 @@ void LSystem::Print(void) {
     std::cout << m_derivation << '\n';
 }
 
-std::string* LSystem::Get(void) {
-    return &m_derivation;
+std::shared_ptr<std::string> LSystem::Get(void) {
+    return std::make_shared<std::string>(m_derivation);
 }
