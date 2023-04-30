@@ -3,8 +3,17 @@
 
 #include "Colors.hpp"
 
-const std::string Colors::Green = "green";
-const std::string Colors::Brown = "brown";
-const std::string Colors::Black = "black";
-const std::string Colors::Blue = "blue";
-const std::string Colors::Red = "red";
+const Color Colors::Blue = {0, 0 , 255};
+const Color Colors::Green = {0, 255, 0};
+const Color Colors::White = {255, 255, 255};
+const Color Colors::Black = {0, 0, 0};
+const Color Colors::Brown = {165, 42, 42};
+const Color Colors::Red = {255, 0, 0};
+const Color Colors::PastelRed = { 255, 105, 97 };
+const Color Colors::PastelYellow = { 255, 247, 153 };
+const Color Colors::PastelPurple = { 203, 153, 201 };
+const Color Colors::PastelGray = { 207, 207, 207 };
+const Color Colors::PastelPink = { 255, 209, 220 };
+const Color Colors::PastelBlue = { 176, 224, 230 };
+const Color Colors::PastelOrange = { 255, 179, 71 };
+const Color Colors::PastelBlack = { 83, 75, 79 };
