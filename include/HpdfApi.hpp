@@ -28,7 +28,10 @@ public:
     HPDF_Page* GetPage(std::size_t pageNum = 0);
 
     Hpdf(const Hpdf&) = delete;
+    Hpdf(const Hpdf&&) = delete;
     Hpdf& operator=(const Hpdf&) = delete;
+    Hpdf& operator=(Hpdf&&) = delete;
+
     HPDF_Page* operator()(std::size_t pageNum);
 
 private:
@@ -58,6 +61,8 @@ public:
 
     Painter(const Painter&) = delete;
     Painter& operator=(const Painter&) = delete;
+    Painter(const Painter&&) = delete;
+    Painter& operator=(const Painter&&) = delete;
 
 private:
     HPDF_Page* m_page;
