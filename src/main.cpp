@@ -7,8 +7,16 @@
 #include "HpdfApi.hpp"
 #include "Time.hpp"
 #include "LSystem.hpp"
+#include "ConfigReader.hpp"
 
 int main(int argv, char* argc[]) {
+    Timer t;
+    ConfigReader::Instance().SetConfigFilename("config");
+    ConfigReader::Instance().ReadConfig();
+
+    std::cout << ConfigReader::Instance().GetValue("line") << '\n';
+
+    /*
     std::unordered_set<char> constants = {'+', '-', '[', ']'};
     std::string axiom = "X";
     std::unordered_map<char, std::string> rules = {
@@ -19,9 +27,10 @@ int main(int argv, char* argc[]) {
     Grammar g(constants, axiom, rules);
     LSystem l(g);
 
-    std::string output = *l.Iterate(14);
-
-/*
+    std::string output = *l.Iterate(6);
+    std::cout << output << '\n';
+*/
+    /*
     CurrentTime cr;
     cr.SetFormat("%H:%M:%S");
     Hpdf test("test.pdf");

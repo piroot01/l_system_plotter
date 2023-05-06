@@ -4,7 +4,7 @@
 #include <iostream>
 #include <unordered_set>
 #include <memory>
-#include <optional>
+#include <vector>
 
 #include "LSystem.hpp"
 #include "Timer.hpp"
@@ -52,18 +52,13 @@ std::shared_ptr<const std::string> LSystem::Iterate(const uint16_t iterCount) {
     const auto& constances = m_grammar.GetConstances();
     const auto& rules = m_grammar.GetRules();
 
-    for (uint16_t i = 0; i < iterCount; i++) {
+    for (uint16_t i = 0; i < iterCount; ++i) {
         std::string nextGeneration;
         nextGeneration.reserve(currentState->size() * 2);
 
         for (const auto& j : *currentState) {
             std::string_view ruleOrConst;
-
-            if (constances.find(j) == constances.end()) 
-                ruleOrConst = rules.at(j);
-            else
-                ruleOrConst = std::string_view(&j, 1);
-
+            ruleOrConst = (constances.find(j) == constances.end()) ? rules.at(j) : std::string_view(&j, 1);
             nextGeneration.append(ruleOrConst);
         }
 
@@ -73,4 +68,3 @@ std::shared_ptr<const std::string> LSystem::Iterate(const uint16_t iterCount) {
 
     return currentState;
 }
-
