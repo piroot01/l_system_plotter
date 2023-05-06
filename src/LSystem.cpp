@@ -1,39 +1,76 @@
-#include "LSystem.hpp"
 #include <cstdint>
 #include <string>
 #include <unordered_map>
 #include <iostream>
 #include <unordered_set>
 #include <memory>
+#include <optional>
 
-LSystem::LSystem(const std::unordered_set<char>& constances, const std::string& axiom, const std::unordered_map<char, std::string>& rules)
-    : m_constances(constances), m_axiom(axiom), m_rules(rules) {
-    SetNumberOfIterations(m_defaultIterCount);
+#include "LSystem.hpp"
+#include "Timer.hpp"
+
+Grammar& Grammar::operator=(const Grammar& other) {
+    if (this != &other) {
+        m_constances = other.m_constances;
+        m_axiom = other.m_axiom;
+        m_rules = other.m_rules;
+    }
+
+    return *this;
 }
 
-void LSystem::SetNumberOfIterations(uint16_t iterCount) {
+Grammar& Grammar::operator=(Grammar&& other) noexcept {
+    if (this != &other) {
+        m_constances = std::move(other.m_constances);
+        m_axiom = std::move(other.m_axiom);
+        m_rules = std::move(other.m_rules);
+    }
+
+    return *this;
+}
+
+const std::unordered_set<char>& Grammar::GetConstances() const {
+    return m_constances;
+}
+
+const std::string& Grammar::GetAxiom() const {
+    return m_axiom;
+}
+
+const std::unordered_map<char, std::string>& Grammar::GetRules() const {
+    return m_rules;
+}
+
+void LSystem::SetNumberOfIterations(const uint16_t iterCount) {
     this->m_iterCount = iterCount;
 }
 
-void LSystem::Iterate(void) {
-    m_derivation = m_axiom;
+std::shared_ptr<const std::string> LSystem::Iterate(const uint16_t iterCount) {
+    Timer t;
+    auto currentState = std::make_shared<std::string>(m_grammar.GetAxiom());
 
-    for (uint16_t i = 0; i < m_iterCount; i++) {
-        std::string next_derivation;
-        for (const auto& j : m_derivation) {
-            if (m_constances.find(j) == m_constances.end()) 
-                next_derivation += m_rules[j];
+    const auto& constances = m_grammar.GetConstances();
+    const auto& rules = m_grammar.GetRules();
+
+    for (uint16_t i = 0; i < iterCount; i++) {
+        std::string nextGeneration;
+        nextGeneration.reserve(currentState->size() * 2);
+
+        for (const auto& j : *currentState) {
+            std::string_view ruleOrConst;
+
+            if (constances.find(j) == constances.end()) 
+                ruleOrConst = rules.at(j);
             else
-                next_derivation += j;
+                ruleOrConst = std::string_view(&j, 1);
+
+            nextGeneration.append(ruleOrConst);
         }
-        m_derivation = std::move(next_derivation);
+
+        currentState->swap(nextGeneration);
+        nextGeneration.clear();
     }
+
+    return currentState;
 }
 
-void LSystem::Print(void) {
-    std::cout << m_derivation << '\n';
-}
-
-std::shared_ptr<std::string> LSystem::Get(void) {
-    return std::make_shared<std::string>(m_derivation);
-}

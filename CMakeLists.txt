@@ -9,7 +9,7 @@ set(INCLUDE_DIR include)
 
 include_directories(${INCLUDE_DIR})
 
-file(GLOB SOURCES ${SOURCE_DIR}/main.cpp ${SOURCE_DIR}/Timer.cpp ${SOURCE_DIR}/HpdfApi.cpp ${SOURCE_DIR}/Colors.cpp ${SOURCE_DIR}/Time.cpp)
+file(GLOB SOURCES ${SOURCE_DIR}/main.cpp ${SOURCE_DIR}/Timer.cpp ${SOURCE_DIR}/HpdfApi.cpp ${SOURCE_DIR}/Colors.cpp ${SOURCE_DIR}/Time.cpp ${SOURCE_DIR}/LSystem.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
