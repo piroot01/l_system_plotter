@@ -23,6 +23,7 @@ public:
     static const Color Brown;
     static const Color Red;
     static const Color PastelBlue;
+    static const Color PastelGreen;
     static const Color PastelRed;
     static const Color PastelYellow;
     static const Color PastelPurple;
