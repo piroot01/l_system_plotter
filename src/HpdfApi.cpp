@@ -110,8 +110,8 @@ void Painter::PageLabel(const std::string& text, const HPDF_Font fontName, const
     HPDF_Page_SetRGBFill(*m_page, color.red, color.green, color.blue);
 
     HPDF_REAL textWidth = HPDF_Page_TextWidth(*m_page, text.c_str());
-    HPDF_REAL leftPadding = 5;
-    HPDF_REAL bottomPadding = 5;
+    HPDF_REAL leftPadding = PAGE_LABEL_LEFT;
+    HPDF_REAL bottomPadding = PAGE_LABEL_RIGHT;
 
     HPDF_Page_BeginText(*m_page);
     HPDF_Page_TextOut(*m_page, HPDF_Page_GetWidth(*m_page) - textWidth - leftPadding, bottomPadding, text.c_str());

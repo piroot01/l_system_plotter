@@ -10,6 +10,9 @@
 
 #include "Colors.hpp"
 
+#define PAGE_LABEL_LEFT 5
+#define PAGE_LABEL_RIGHT 5
+
 class HpdfException : public std::runtime_error {
 public:
     explicit HpdfException(const std::string& message) : std::runtime_error(message) {}
