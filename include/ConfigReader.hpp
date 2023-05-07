@@ -3,13 +3,13 @@
 #define CONFIG_READER_H_
 #ifdef CONFIG_READER_H_
 
-#include <unordered_map>
+#include <unordered_set>
 #include <stdexcept>
 #include <string>
 #include <optional>
 #include <filesystem>
-
-#include "ConfigDefaults.hpp"
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
 
 typedef std::unordered_map<std::string, std::string> ConfigMap;
 
@@ -21,7 +21,8 @@ public:
 
 class ConfigReader {
 public:
-    ConfigReader(const ConfigMap& map = ConfigDefaults::Empty::values());
+    ConfigReader();
+    ConfigReader(const std::string& filename);
     ~ConfigReader() = default;
     ConfigReader(const ConfigReader& other);
     ConfigReader(ConfigReader&& other) noexcept;
@@ -29,18 +30,19 @@ public:
     void ReadConfig();
     void SetConfigFilename(const std::string& filename);
     std::string GetValue(const std::string& key) const;
+    std::unordered_set<std::string> GetValues(const std::string& key) const;
+    const boost::property_tree::ptree& GetRawValues(const std::string& key) const;
+    bool IsInConfig(const std::string& key) const;
 
     ConfigReader& operator=(const ConfigReader& other);
     ConfigReader& operator=(ConfigReader&& other) noexcept;
 
 private:
-    void RemoveComment(std::string& line);
-    void ProcessLine(const std::string& line);
-    void StoreLine(const std::string& key, const std::string& value);
-    void Trim(std::string& str);
+    void ValidateSingleNode(const boost::property_tree::ptree& node, const std::string& key) const;
+    void ValidateArrayNode(const boost::property_tree::ptree& node, const std::string& key) const;
 
     std::optional<std::filesystem::path> m_configFilename;
-    ConfigMap m_configMap;
+    boost::property_tree::ptree m_config;
 
 };
 
