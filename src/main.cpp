@@ -8,13 +8,16 @@
 #include "Time.hpp"
 #include "LSystem.hpp"
 #include "ConfigReader.hpp"
+#include "ConfigDefaults.hpp"
 
 int main(int argv, char* argc[]) {
     Timer t;
-    ConfigReader::Instance().SetConfigFilename("config");
-    ConfigReader::Instance().ReadConfig();
+    
+    ConfigReader config(ConfigDefaults::Example::values());
+    config.SetConfigFilename("config");
+    config.ReadConfig();
 
-    std::cout << ConfigReader::Instance().GetValue("line") << '\n';
+    std::cout << config.GetValue("line") << '\n';
 
     /*
     std::unordered_set<char> constants = {'+', '-', '[', ']'};

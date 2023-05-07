@@ -4,18 +4,28 @@
 
 #include "ConfigReader.hpp"
 
-ConfigMap InitializeDefaultValues() {
-    return {
-        {"line", "1"},
-        {"color", "black"}
-    };
+ConfigReader::ConfigReader(const ConfigMap& map) : m_configMap(map) {}
+
+ConfigReader::ConfigReader(const ConfigReader& other)
+    : m_configFilename(other.m_configFilename), m_configMap(other.m_configMap) {}
+
+ConfigReader::ConfigReader(ConfigReader&& other) noexcept
+    : m_configFilename(std::move(other.m_configFilename)), m_configMap(std::move(other.m_configMap)) {}
+
+ConfigReader& ConfigReader::operator=(const ConfigReader& other) {
+    if (this != &other) {
+        m_configFilename = other.m_configFilename;
+        m_configMap = other.m_configMap;
+    }
+    return *this;
 }
 
-const ConfigMap defaultValues = InitializeDefaultValues();
-
-ConfigReader& ConfigReader::Instance() {
-    static ConfigReader instance;
-    return instance;
+ConfigReader& ConfigReader::operator=(ConfigReader&& other) noexcept {
+    if (this != &other) {
+        m_configFilename = std::move(other.m_configFilename);
+        m_configMap = std::move(other.m_configMap);
+    }
+    return *this;
 }
 
 void ConfigReader::ReadConfig() {
@@ -26,8 +36,6 @@ void ConfigReader::ReadConfig() {
         throw ConfigReaderException("Failed to open config file");
 
     std::ifstream configFile(*m_configFilename);
-    m_configMap = defaultValues;
-
     std::string line;
     while (std::getline(configFile, line)) {
         RemoveComment(line);
@@ -69,12 +77,17 @@ void ConfigReader::SetConfigFilename(const std::string& filename) {
 }
 
 std::string ConfigReader::GetValue(const std::string& key) const {
-    return m_configMap.at(key);
+    auto it = m_configMap.find(key);
+    if (it != m_configMap.end())
+        return it->second;
+    else
+        throw ConfigReaderException("Key \'" + key + "\' not found in config");
 }
 
 void ConfigReader::StoreLine(const std::string& key, const std::string& value) {
-    if (m_configMap.find(key) != m_configMap.end())
-        m_configMap.emplace(key, value);
+    auto it = m_configMap.find(key);
+    if (it != m_configMap.end())
+        it->second = value;
     else
-        throw ConfigReaderException("Invalid config key: " + key);
+        m_configMap.emplace(key, value);
 }

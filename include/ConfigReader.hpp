@@ -9,6 +9,8 @@
 #include <optional>
 #include <filesystem>
 
+#include "ConfigDefaults.hpp"
+
 typedef std::unordered_map<std::string, std::string> ConfigMap;
 
 class ConfigReaderException : public std::runtime_error {
@@ -17,30 +19,21 @@ public:
 
 };
 
-class ConfigDefaults {
-public:
-    static const ConfigMap defaultValues;
-
-private:
-    static ConfigMap InitializeDefaultValues();
-
-};
-
 class ConfigReader {
 public:
-    static ConfigReader& Instance();
+    ConfigReader(const ConfigMap& map = ConfigDefaults::Empty::values());
+    ~ConfigReader() = default;
+    ConfigReader(const ConfigReader& other);
+    ConfigReader(ConfigReader&& other) noexcept;
 
     void ReadConfig();
     void SetConfigFilename(const std::string& filename);
     std::string GetValue(const std::string& key) const;
 
-private:
-    ConfigReader() = default;
-    ConfigReader(const ConfigReader&) = delete;
-    ConfigReader(ConfigReader&&) = delete;
-    ConfigReader& operator=(const ConfigReader&) = delete;
-    ConfigReader& operator=(ConfigReader&&) = delete;
+    ConfigReader& operator=(const ConfigReader& other);
+    ConfigReader& operator=(ConfigReader&& other) noexcept;
 
+private:
     void RemoveComment(std::string& line);
     void ProcessLine(const std::string& line);
     void StoreLine(const std::string& key, const std::string& value);
