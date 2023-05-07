@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cstdint>
-#include <ostream>
 #define L_SYSTEM_H_
 #ifdef L_SYSTEM_H_
 
