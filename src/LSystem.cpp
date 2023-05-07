@@ -35,6 +35,8 @@ Grammar& Grammar::operator=(Grammar&& other) noexcept {
     return *this;
 }
 
+Grammar::~Grammar() = default;
+
 const std::unordered_set<char>& Grammar::GetConstances() const {
     return m_constances;
 }
@@ -50,6 +52,8 @@ const std::unordered_map<char, std::string>& Grammar::GetRules() const {
 LSystem::LSystem(const Grammar& grammar) : m_grammar(grammar) {}
 
 LSystem::LSystem(const std::unordered_set<char>& constances, const std::string& axiom, const std::unordered_map<char, std::string>& rules) : m_grammar(constances, axiom, rules) {}
+
+LSystem::~LSystem() = default;
 
 void LSystem::SetNumberOfIterations(const uint16_t iterCount) {
     this->m_iterCount = iterCount;

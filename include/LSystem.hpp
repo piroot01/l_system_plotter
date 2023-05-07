@@ -13,7 +13,7 @@
 class Grammar {
 public:
     Grammar(const std::unordered_set<char>& constances, const std::string& axiom, const std::unordered_map<char, std::string>& rules);
-    ~Grammar() = default;
+    ~Grammar();
     Grammar(const Grammar& other);
     Grammar(Grammar&& other) noexcept;
 
@@ -35,7 +35,7 @@ class LSystem {
 public:
     LSystem(const Grammar& grammar);
     LSystem(const std::unordered_set<char>& constances, const std::string& axiom, const std::unordered_map<char, std::string>& rules);
-    ~LSystem() = default;
+    ~LSystem();
     LSystem(const LSystem&) = delete;
     LSystem(LSystem&&) = delete;
 

@@ -12,7 +12,31 @@
 
 LSystemInterpreter::LSystemInterpreter(const std::shared_ptr<const std::string> lSystem) : m_lSystem(lSystem) {}
 
-void insertValues(const boost::property_tree::ptree& values, std::unordered_set<char>& optVal) {
+LSystemInterpreter::LSystemInterpreter(const LSystemInterpreter& other)
+    : m_config(other.m_config), m_lSystem(other.m_lSystem) {}
+
+LSystemInterpreter::LSystemInterpreter(LSystemInterpreter&& other) noexcept
+    : m_config(std::move(other.m_config)), m_lSystem(std::move(other.m_lSystem)) {}
+
+LSystemInterpreter& LSystemInterpreter::operator=(const LSystemInterpreter& other) {
+    if (this != &other) {
+        m_config = other.m_config;
+        m_lSystem = other.m_lSystem;
+    }
+    return *this;
+}
+
+LSystemInterpreter& LSystemInterpreter::operator=(LSystemInterpreter&& other) noexcept {
+    if (this != &other) {
+        m_config = std::move(other.m_config);
+        m_lSystem = std::move(other.m_lSystem);
+    }
+    return *this;
+}
+
+LSystemInterpreter::~LSystemInterpreter() = default;
+
+void insertValues(const boost::property_tree::ptree& values, std::unordered_set<char>&& optVal) {
     for (const auto& value : values) {
         try {
             optVal.insert(value.second.get_value<char>());
@@ -22,7 +46,7 @@ void insertValues(const boost::property_tree::ptree& values, std::unordered_set<
     }
 }
 
-LSystemInterpreter::LSystemInterpreter(const std::shared_ptr<const std::string> lSystem, const ConfigReader& config) : m_lSystem(lSystem) {
+LSystemInterpreter::LSystemInterpreter(const std::shared_ptr<const std::string>& lSystem, const ConfigReader& config) : m_lSystem(lSystem) {
     for (const auto& opt : m_config) {
         std::string optName = configSectionName + std::string(".") + opt.first;
 
@@ -31,7 +55,7 @@ LSystemInterpreter::LSystemInterpreter(const std::shared_ptr<const std::string> 
 
         std::unordered_set<char> optVal;
         const auto& values = config.GetRawValues(optName);
-        insertValues(values, optVal);
+        insertValues(values, std::move(optVal));
         m_config[opt.first] = std::move(optVal);
     }
 }

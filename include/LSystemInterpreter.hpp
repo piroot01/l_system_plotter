@@ -15,8 +15,13 @@ constexpr const char* configSectionName = "l_system_interpreter";
 
 class LSystemInterpreter {
 public:
-    LSystemInterpreter(const std::shared_ptr<const std::string> lSystem);
-    LSystemInterpreter(const std::shared_ptr<const std::string> lSystem, const ConfigReader& config);
+    explicit LSystemInterpreter(const std::shared_ptr<const std::string> lSystem);
+    LSystemInterpreter(const std::shared_ptr<const std::string>& lSystem, const ConfigReader& config);
+    LSystemInterpreter(const LSystemInterpreter& other);
+    LSystemInterpreter(LSystemInterpreter&& other) noexcept;
+    LSystemInterpreter& operator=(const LSystemInterpreter& other);
+    LSystemInterpreter& operator=(LSystemInterpreter&& other) noexcept;
+    ~LSystemInterpreter();
 
     void PrintConfig(void) const;
 
