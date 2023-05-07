@@ -1,0 +1,11 @@
+{
+    "l_system_interpreter": {
+        "draw_a_line": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U"],
+        "move_forward_without_drawing": ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u"]
+        "do_nothing": ["V", "W", "X", "Y", "Z", "v", "w", "x", "y", "z"],
+        "rotate_left_right": ["+", "-"],
+        "rotate_180_degrees": ["|"],
+        "save_current_state": ["["],
+        "move_to_last_saved_state": ["]"],
+    }
+}

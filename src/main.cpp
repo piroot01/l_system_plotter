@@ -8,18 +8,14 @@
 #include "Time.hpp"
 #include "LSystem.hpp"
 #include "ConfigReader.hpp"
-#include "ConfigDefaults.hpp"
+#include "LSystemInterpreter.hpp"
 
 int main(int argv, char* argc[]) {
     Timer t;
     
-    ConfigReader config(ConfigDefaults::Example::values());
-    config.SetConfigFilename("config");
+    ConfigReader config("l_system_interpreter.json");
     config.ReadConfig();
 
-    std::cout << config.GetValue("line") << '\n';
-
-    /*
     std::unordered_set<char> constants = {'+', '-', '[', ']'};
     std::string axiom = "X";
     std::unordered_map<char, std::string> rules = {
@@ -30,10 +26,10 @@ int main(int argv, char* argc[]) {
     Grammar g(constants, axiom, rules);
     LSystem l(g);
 
-    std::string output = *l.Iterate(6);
-    std::cout << output << '\n';
-*/
-    /*
+    LSystemInterpreter interpreter(l.Iterate(3), config);
+    interpreter.PrintConfig();
+
+/*
     CurrentTime cr;
     cr.SetFormat("%H:%M:%S");
     Hpdf test("test.pdf");

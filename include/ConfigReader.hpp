@@ -29,8 +29,8 @@ public:
 
     void ReadConfig();
     void SetConfigFilename(const std::string& filename);
-    std::string GetValue(const std::string& key) const;
-    std::unordered_set<std::string> GetValues(const std::string& key) const;
+    //std::string GetValue(const std::string& key) const;
+    //std::unordered_set<std::string> GetValues(const std::string& key) const;
     const boost::property_tree::ptree& GetRawValues(const std::string& key) const;
     bool IsInConfig(const std::string& key) const;
 
@@ -38,8 +38,8 @@ public:
     ConfigReader& operator=(ConfigReader&& other) noexcept;
 
 private:
-    void ValidateSingleNode(const boost::property_tree::ptree& node, const std::string& key) const;
-    void ValidateArrayNode(const boost::property_tree::ptree& node, const std::string& key) const;
+    //void ValidateSingleNode(const boost::property_tree::ptree& node, const std::string& key) const;
+    //void ValidateArrayNode(const boost::property_tree::ptree& node, const std::string& key) const;
 
     std::optional<std::filesystem::path> m_configFilename;
     boost::property_tree::ptree m_config;
