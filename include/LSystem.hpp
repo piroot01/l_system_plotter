@@ -1,14 +1,16 @@
 #pragma once
 
-#define L_SYSTEM_H_
-#ifdef L_SYSTEM_H_
-
 #include <vector>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <memory>
 #include <optional>
+
+class GrammarException : public std::runtime_error {
+public:
+    explicit GrammarException(const std::string& message) : std::runtime_error(message) {}
+};
 
 class Grammar {
 public:
@@ -50,5 +52,3 @@ private:
     uint16_t m_iterCount;
 
 };
-
-#endif

@@ -1,8 +1,5 @@
 #pragma once
 
-#define COLORS_H_
-#ifdef COLORS_H_
-
 #include <cstdint>
 #include <string>
 
@@ -32,5 +29,3 @@ public:
     static const Color PastelOrange;
     static const Color PastelBlack;
 };
-
-#endif

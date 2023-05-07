@@ -1,8 +1,5 @@
 #pragma once
 
-#define L_SYSTEM_INTERPRETER_DEFAULTS_H_
-#ifdef L_SYSTEM_INTERPRETER_DEFAULTS_H_
-
 #include <unordered_set>
 
 namespace LSystemInterpreterDefaults {
@@ -15,5 +12,3 @@ namespace LSystemInterpreterDefaults {
     const std::unordered_set<char> save_current_state = {'['};
     const std::unordered_set<char> move_to_last_saved_state =  {']'};
 }
-
-#endif

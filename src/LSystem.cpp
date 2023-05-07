@@ -9,7 +9,16 @@
 #include "LSystem.hpp"
 #include "Timer.hpp"
 
-Grammar::Grammar(const std::unordered_set<char>& constances, const std::string& axiom, const std::unordered_map<char, std::string>& rules) : m_constances(constances), m_axiom(axiom), m_rules(rules) {}
+Grammar::Grammar(const std::unordered_set<char>& constances, const std::string& axiom, const std::unordered_map<char, std::string>& rules) : m_constances(constances), m_axiom(axiom), m_rules(rules) {
+    if (axiom.empty()) {
+        throw GrammarException("Axiom cannot be empty.");
+    }
+    for (const auto& [key, value] : rules) {
+        if (value.empty()) {
+            throw GrammarException("Rule values cannot be empty.");
+        }
+    }
+}
 
 Grammar::Grammar(const Grammar& other) : m_constances(other.m_constances), m_axiom(other.m_axiom), m_rules(other.m_rules) {}
 

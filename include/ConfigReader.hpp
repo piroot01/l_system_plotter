@@ -1,8 +1,5 @@
 #pragma once
 
-#define CONFIG_READER_H_
-#ifdef CONFIG_READER_H_
-
 #include <unordered_set>
 #include <stdexcept>
 #include <string>
@@ -45,5 +42,3 @@ private:
     boost::property_tree::ptree m_config;
 
 };
-
-#endif

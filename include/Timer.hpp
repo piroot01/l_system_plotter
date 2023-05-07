@@ -1,8 +1,5 @@
 #pragma once
 
-#define TIMER_H_
-#ifdef TIMER_H_
-
 #include <chrono>
 #include <cstdint>
 
@@ -17,5 +14,3 @@ public:
 
     Timer& operator=(const Timer&) = delete;
 };
-
-#endif

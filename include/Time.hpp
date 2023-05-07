@@ -1,8 +1,5 @@
 #pragma once
 
-#define TIME_H_
-#ifdef TIME_H_
-
 #include <chrono>
 #include <string>
 
@@ -22,5 +19,3 @@ public:
     CurrentTime& operator=(const CurrentTime&) = delete;
     CurrentTime& operator=(CurrentTime&&) = delete;
 };
-
-#endif

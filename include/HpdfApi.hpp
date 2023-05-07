@@ -1,8 +1,5 @@
 #pragma once
 
-#define HPDF_API_H_
-#ifdef HPDF_API_H_
-
 #include <string>
 #include <stdexcept>
 #include <vector>
@@ -71,5 +68,3 @@ private:
     HPDF_Page* m_page;
 
 };
-
-#endif

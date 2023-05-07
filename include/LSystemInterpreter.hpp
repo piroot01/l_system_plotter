@@ -1,8 +1,5 @@
 #pragma once
 
-#define L_SYSTEM_INTERPRETER_H_
-#ifdef L_SYSTEM_INTERPRETER_H_
-
 #include <memory>
 #include <unordered_map>
 #include <unordered_set>
@@ -40,5 +37,3 @@ private:
     std::shared_ptr<const std::string> m_lSystem;
 
 };
-
-#endif
