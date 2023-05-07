@@ -9,6 +9,12 @@
 #include "LSystem.hpp"
 #include "Timer.hpp"
 
+Grammar::Grammar(const std::unordered_set<char>& constances, const std::string& axiom, const std::unordered_map<char, std::string>& rules) : m_constances(constances), m_axiom(axiom), m_rules(rules) {}
+
+Grammar::Grammar(const Grammar& other) : m_constances(other.m_constances), m_axiom(other.m_axiom), m_rules(other.m_rules) {}
+
+Grammar::Grammar(Grammar&& other) noexcept : m_constances(std::move(other.m_constances)), m_axiom(std::move(other.m_axiom)), m_rules(std::move(other.m_rules)) {}
+
 Grammar& Grammar::operator=(const Grammar& other) {
     if (this != &other) {
         m_constances = other.m_constances;
@@ -40,6 +46,10 @@ const std::string& Grammar::GetAxiom() const {
 const std::unordered_map<char, std::string>& Grammar::GetRules() const {
     return m_rules;
 }
+
+LSystem::LSystem(const Grammar& grammar) : m_grammar(grammar) {}
+
+LSystem::LSystem(const std::unordered_set<char>& constances, const std::string& axiom, const std::unordered_map<char, std::string>& rules) : m_grammar(constances, axiom, rules) {}
 
 void LSystem::SetNumberOfIterations(const uint16_t iterCount) {
     this->m_iterCount = iterCount;
