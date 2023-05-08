@@ -8,7 +8,13 @@ namespace LSystemInterpreterDefaults {
     const std::unordered_set<char> do_nothing = {'V', 'W', 'X', 'Y', 'Z', 'v', 'w', 'x', 'y', 'z'};
     const std::unordered_set<char> rotate_left = {'+'};
     const std::unordered_set<char> rotate_right = {'-'};
-    const std::unordered_set<char> rotate_180_degrees = {'|'};
+    const std::unordered_set<char> rotate_180_deg = {'|'};
     const std::unordered_set<char> save_current_state = {'['};
     const std::unordered_set<char> move_to_last_saved_state =  {']'};
+}
+
+namespace LSystemBuilderDefaults {
+    constexpr double init_angle_deg = 0;
+    constexpr double vector_norm_px = 10;
+    constexpr double step_angle_deg = 45;
 }

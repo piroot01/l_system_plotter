@@ -1,0 +1,7 @@
+{
+    "l_system_builder": {
+        "init_angle_degrees": 0,
+        "vector_norm_px": 10,
+        "step_angle_degrees": 45,
+    }
+}
