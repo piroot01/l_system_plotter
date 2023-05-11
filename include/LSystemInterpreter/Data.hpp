@@ -40,8 +40,15 @@ class Structure {
 
 class ActionSet {
 public:
+    ActionSet();
     ActionSet(const std::initializer_list<Action>& initList);
+    ~ActionSet();
 
+    ActionSet(const ActionSet& other);
+
+    ActionSet& operator=(const ActionSet& other);
+
+public:
     std::unordered_set<Action> set;
 
 };
