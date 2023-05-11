@@ -11,21 +11,32 @@ namespace Actions {
 
 class ActionInterface {
 public:
+    ActionInterface();
     virtual ~ActionInterface();
+
     virtual void Execute(Data::Structure& structure, const Options::StructureBuilder& options) const = 0;
 
-    // @TODO class copy and assingn constructors
+    ActionInterface(const ActionInterface&) = delete;
+
+    ActionInterface& operator=(const ActionInterface&) = delete;
 
 };
 
 class ActionRegistry {
 public:
+    ActionRegistry();
+    ~ActionRegistry();
+
     template<typename ActionType>
     void Register(const Data::ActionSet& actionSet);
 
     const ActionInterface* FindAction(const Data::Action input) const;
 
-    // @TODO Rule of five
+    ActionRegistry(const ActionRegistry& other);
+    ActionRegistry(ActionRegistry&& other) noexcept;
+
+    ActionRegistry& operator=(const ActionRegistry& other);
+    ActionRegistry& operator=(ActionRegistry&& other) noexcept;
 
 private:
     std::unordered_map<Data::Action, std::shared_ptr<ActionInterface>> m_actionMap;
