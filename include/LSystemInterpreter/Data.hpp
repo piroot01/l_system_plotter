@@ -9,17 +9,34 @@ namespace Data {
 
 using RawLSystem = std::string;
 using Action = char;
-
-// @TODO Add copy constructors and move constructors
+using Real = double;
 
 class Point {
 public:
-    double x;
-    double y;
+    Point();
+    Point(const Real x, const Real y);
+    ~Point();
+
+    Point(const Point& other);
+
+    Point& operator=(const Point& other);
+
+public:
+    Real x;
+    Real y;
 
 };
 
 class Line {
+public:
+    Line();
+    Line(const std::initializer_list<Point>& initList);
+    ~Line();
+
+    Line(const Line& other);
+
+    Line& operator=(const Line& other);
+
 public:
     std::vector<Point> line;
 
@@ -27,12 +44,31 @@ public:
 
 class Position {
 public:
+    Position();
+    Position(const Point& position, const Real angle_deg);
+    ~Position();
+
+    Position(const Position& other);
+
+    Position& operator=(const Position& other);
+
+public:
     Point position;
-    double angle_deg;
+    Real angle_deg;
 
 };
 
 class Structure {
+public:
+    Structure();
+    Structure(const Position& position);
+    ~Structure();
+
+    Structure(const Structure& other);
+
+    Structure& operator=(const Structure& other);
+
+public:
     std::vector<Line> structure;
     Position position;
 
