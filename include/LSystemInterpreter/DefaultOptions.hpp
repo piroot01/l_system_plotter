@@ -2,6 +2,8 @@
 
 #include "Data.hpp"
 
+namespace LSystemInterpreter {
+
 namespace DefaultOptions {
 
 class Interpreter {
@@ -28,5 +30,7 @@ public:
     // @TODO Add adidional settings
 
 };
+
+}
 
 }

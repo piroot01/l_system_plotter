@@ -2,6 +2,8 @@
 
 #include "LSystemInterpreter/Data.hpp"
 
+namespace LSystemInterpreter {
+
 Data::Point::Point()
     : x(0), y(0) {}
 
@@ -14,8 +16,8 @@ Data::Point::Point(const Data::Point& other) : x(other.x), y(other.y) {}
 
 Data::Point& Data::Point::operator=(const Data::Point& other) {
     if (this != &other) {
-        x = other.x;
-        y = other.y;
+        this->x = other.x;
+        this->y = other.y;
     }
 
     return *this;
@@ -23,6 +25,10 @@ Data::Point& Data::Point::operator=(const Data::Point& other) {
 
 Data::Line::Line()
     : line({}) {}
+
+Data::Line::Line(const Point& start) {
+    this->line.emplace_back(start);
+}
 
 Data::Line::Line(const std::initializer_list<Data::Point>& initList)
     : line(initList) {}
@@ -34,7 +40,7 @@ Data::Line::Line(const Line& other)
 
 Data::Line& Data::Line::operator=(const Data::Line& other) {
     if (this != &other)
-        line = other.line;
+        this->line = other.line;
 
     return *this;
 }
@@ -52,8 +58,8 @@ Data::Position::Position(const Data::Position& other)
 
 Data::Position& Data::Position::operator=(const Data::Position& other) {
     if (this != &other) {
-        position = other.position;
-        angle_deg = other.angle_deg;
+        this->position = other.position;
+        this->angle_deg = other.angle_deg;
     }
 
     return *this;
@@ -72,8 +78,8 @@ Data::Structure::Structure(const Data::Structure& other)
 
 Data::Structure& Data::Structure::operator=(const Data::Structure &other) {
     if (this != &other) {
-        structure = other.structure;
-        position = other.position;
+        this->structure = other.structure;
+        this->position = other.position;
     }
 
     return *this;
@@ -92,7 +98,9 @@ Data::ActionSet::ActionSet(const Data::ActionSet& other)
 
 Data::ActionSet& Data::ActionSet::operator=(const Data::ActionSet& other) {
     if (this != &other)
-        set = other.set;
+        this->set = other.set;
 
     return *this;
+}
+
 }

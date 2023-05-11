@@ -7,6 +7,8 @@
 #include "Data.hpp"
 #include "Options.hpp"
 
+namespace LSystemInterpreter {
+
 namespace Actions {
 
 class ActionInterface {
@@ -48,10 +50,10 @@ private:
 
 class DrawALine : public ActionInterface {
 public:
-    DrawALine();
-
     void Execute(Data::Structure& structure, const Options::StructureBuilder& options) const override;
 
 };
+
+}
 
 }

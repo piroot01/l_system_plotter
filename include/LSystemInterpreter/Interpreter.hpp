@@ -8,6 +8,8 @@
 #include "DefaultOptions.hpp"
 #include "Data.hpp"
 
+namespace LSystemInterpreter {
+
 namespace Interpreter {
 
 class StructureBuilder {
@@ -35,8 +37,8 @@ public:
 
 class Interpreter {
 public:
-    explicit Interpreter(const std::shared_ptr<const Data::RawLSystem>);
-    Interpreter(const std::shared_ptr<const Data::RawLSystem>, const Options::Interpreter& options);
+    explicit Interpreter(const std::shared_ptr<const Data::RawLSystem>& rawLSystem);
+    Interpreter(const std::shared_ptr<const Data::RawLSystem>& rawLSystem, const Options::Interpreter& options);
     void Execute(StructureBuilder& structureBuilder);
 
     // @TODO Rule of five
@@ -46,5 +48,7 @@ private:
     Actions::ActionRegistry m_actions;
 
 };
+
+}
 
 }

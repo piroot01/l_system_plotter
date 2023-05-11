@@ -1,6 +1,9 @@
 #pragma once
 
 #include "DefaultOptions.hpp"
+#include "Data.hpp"
+
+namespace LSystemInterpreter {
 
 namespace Options {
 
@@ -19,9 +22,12 @@ public:
 
 class Interpreter {
 public:
+    Data::ActionSet drawALine;
 
-    // @TODO Finish this :D
+    // @TODO Rest of options
 
 };
+
+}
 
 }

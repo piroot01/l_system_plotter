@@ -5,11 +5,15 @@
 #include <unordered_map>
 #include <memory>
 
+namespace LSystemInterpreter {
+
 namespace Data {
 
 using RawLSystem = std::string;
 using Action = char;
 using Real = double;
+
+constexpr double Pi = 3.1415926535;
 
 class Point {
 public:
@@ -30,6 +34,7 @@ public:
 class Line {
 public:
     Line();
+    Line(const Point& start);
     Line(const std::initializer_list<Point>& initList);
     ~Line();
 
@@ -88,5 +93,7 @@ public:
     std::unordered_set<Action> set;
 
 };
+
+}
 
 }

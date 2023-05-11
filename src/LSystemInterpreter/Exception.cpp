@@ -16,5 +16,4 @@ Exception::~Exception() noexcept = default;
     return m_message.c_str();
 }
 
-} // namespace LSystemInterpreter
-
+}
