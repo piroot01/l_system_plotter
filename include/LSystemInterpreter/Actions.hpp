@@ -6,6 +6,7 @@
 
 #include "Data.hpp"
 #include "Options.hpp"
+#include "Exception.hpp"
 
 namespace LSystemInterpreter {
 
@@ -45,14 +46,56 @@ private:
 
 };
 
-// @brief All actions will be placed here
-// @TODO Finish all basic operations
-
 class DrawALine : public ActionInterface {
 public:
     void Execute(Data::Structure& structure, const Options::StructureBuilder& options) const override;
 
 };
+
+class MoveForwardWithoutDrawing : public ActionInterface {
+public:
+    void Execute(Data::Structure& structure, const Options::StructureBuilder& options) const override;
+
+};
+
+class DoNothing : public ActionInterface {
+public:
+    void Execute(Data::Structure& structure, const Options::StructureBuilder& options) const override;
+
+};
+
+class RotateLeft : public ActionInterface {
+public:
+    void Execute(Data::Structure& structure, const Options::StructureBuilder& options) const override;
+
+};
+
+class RotateRight : public ActionInterface {
+public:
+    void Execute(Data::Structure& structure, const Options::StructureBuilder& options) const override;
+
+};
+
+class Rotate180Deg : public ActionInterface {
+public:
+    void Execute(Data::Structure& structure, const Options::StructureBuilder& options) const override;
+
+};
+
+class SaveCurrentState : public ActionInterface {
+public:
+    void Execute(Data::Structure& structure, const Options::StructureBuilder& options) const override;
+
+};
+
+class MoveToLastSavedState : public ActionInterface {
+public:
+    void Execute(Data::Structure& structure, const Options::StructureBuilder& options) const override;
+
+};
+
+// @brief All actions will be placed here
+// @TODO Finish all basic operations
 
 }
 

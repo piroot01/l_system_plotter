@@ -11,9 +11,9 @@ namespace Data {
 
 using RawLSystem = std::string;
 using Action = char;
-using Real = double;
+using Real = float;
 
-constexpr double Pi = 3.1415926535;
+constexpr double Pi = 3.14159265358979323846;
 
 class Point {
 public:
@@ -24,12 +24,15 @@ public:
     Point(const Point& other);
 
     Point& operator=(const Point& other);
+    Point& operator+=(const Point& other);
 
 public:
     Real x;
     Real y;
 
 };
+
+Point operator+(const Point& lhs, const Point& rhs);
 
 class Line {
 public:
@@ -75,6 +78,7 @@ public:
 
 public:
     std::vector<Line> structure;
+    std::vector<Position> lifo;
     Position position;
 
 };

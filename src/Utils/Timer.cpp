@@ -1,7 +1,7 @@
 #include <chrono>
 #include <iostream>
 
-#include "Timer.hpp"
+#include "Utils/Timer.hpp"
 
 Timer::Timer() {
     m_start = std::chrono::steady_clock::now();

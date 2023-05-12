@@ -1,7 +1,7 @@
 #include <string>
 #include <iomanip>
 
-#include "Time.hpp"
+#include "Utils/Time.hpp"
 
 void CurrentTime::SetFormat(const std::string& format) {
     m_timeFormat = format;

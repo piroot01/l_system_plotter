@@ -6,6 +6,7 @@
 #include <hpdf.h>
 
 #include "Colors.hpp"
+#include "LSystemInterpreter/Data.hpp"
 
 #define PAGE_LABEL_LEFT 5
 #define PAGE_LABEL_RIGHT 5
@@ -43,19 +44,13 @@ private:
 
 };
 
-struct Point {
-    Point(float x, float y) : x(x), y(y) {}
-    float x;
-    float y;
-};
-
 class Painter {
 public:
     Painter(HPDF_Page* page) : m_page(page) {}
     ~Painter() = default;
 
-    void Line(const Point& a, const Point& b, const HPDF_REAL lineWidth = 1, const Color& color = Colors::Black, const HPDF_LineCap lineCap = HPDF_BUTT_END);
-    void Line(const std::vector<Point>& line, const HPDF_REAL lineWidth = 1, const Color& color = Colors::Black, const HPDF_LineCap lineCap = HPDF_BUTT_END, const HPDF_LineJoin lineJoin = HPDF_MITER_JOIN);
+    void Line(const LSystemInterpreter::Data::Point& a, const LSystemInterpreter::Data::Point& b, const HPDF_REAL lineWidth = 1, const Color& color = Colors::Black, const HPDF_LineCap lineCap = HPDF_BUTT_END);
+    void Line(const std::vector<LSystemInterpreter::Data::Line>& structure, const HPDF_REAL lineWidth = 1, const Color& color = Colors::Black, const HPDF_LineCap lineCap = HPDF_BUTT_END, const HPDF_LineJoin lineJoin = HPDF_MITER_JOIN);
     void PageFill(const Color& color);
     void PageLabel(const std::string& text, const HPDF_Font fontName, const HPDF_REAL fontSize = 8, const Color& color = Colors::Black);
 

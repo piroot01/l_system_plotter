@@ -1,7 +1,7 @@
 #include <cstdint>
 #include <string>
 
-#include "Colors.hpp"
+#include "LibHaruFacade/Colors.hpp"
 
 const Color Colors::Blue = {0, 0 , 255};
 const Color Colors::Green = {0, 255, 0};

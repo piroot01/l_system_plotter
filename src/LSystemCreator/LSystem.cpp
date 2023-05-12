@@ -6,8 +6,8 @@
 #include <memory>
 #include <vector>
 
-#include "LSystem.hpp"
-#include "Timer.hpp"
+#include "LSystemCreator/LSystem.hpp"
+#include "Utils/Timer.hpp"
 
 Grammar::Grammar(const std::unordered_set<char>& constances, const std::string& axiom, const std::unordered_map<char, std::string>& rules) : m_constances(constances), m_axiom(axiom), m_rules(rules) {
     if (axiom.empty()) {

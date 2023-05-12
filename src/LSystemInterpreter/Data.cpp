@@ -23,6 +23,17 @@ Data::Point& Data::Point::operator=(const Data::Point& other) {
     return *this;
 }
 
+Data::Point& Data::Point::operator+=(const Data::Point& other) {
+    this->x += other.x;
+    this->y += other.y;
+
+    return *this;
+}
+
+Data::Point Data::operator+(const Data::Point& lhs, const Data::Point& rhs) {
+    return Data::Point(lhs.x + rhs.x, lhs.y + rhs.y);
+}
+
 Data::Line::Line()
     : line({}) {}
 
@@ -66,19 +77,20 @@ Data::Position& Data::Position::operator=(const Data::Position& other) {
 }
 
 Data::Structure::Structure()
-    : structure({}), position({}) {}
+    : structure({}), lifo({}), position({}) {}
 
 Data::Structure::Structure(const Data::Position& position)
-    : structure({}), position(position) {}
+    : structure({}), lifo({}), position(position) {}
 
 Data::Structure::~Structure() = default;
 
 Data::Structure::Structure(const Data::Structure& other)
-    : structure(other.structure), position(other.position) {}
+    : structure(other.structure), lifo(other.lifo), position(other.position) {}
 
 Data::Structure& Data::Structure::operator=(const Data::Structure &other) {
     if (this != &other) {
         this->structure = other.structure;
+        this->lifo = other.lifo;
         this->position = other.position;
     }
 

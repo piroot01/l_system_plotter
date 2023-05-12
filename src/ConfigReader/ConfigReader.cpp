@@ -2,7 +2,7 @@
 #include <fstream>
 #include <sstream>
 
-#include "ConfigReader.hpp"
+#include "ConfigReader/ConfigReader.hpp"
 
 ConfigReader::ConfigReader(const std::string& filename) : m_configFilename(filename) {}
 

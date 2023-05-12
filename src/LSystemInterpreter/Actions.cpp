@@ -37,15 +37,6 @@ Actions::ActionRegistry& Actions::ActionRegistry::operator=(Actions::ActionRegis
     return *this;
 }
 
-template<typename ActionType>
-void Actions::ActionRegistry::Register(const Data::ActionSet& actionSet) {
-    if (actionSet.set.empty())
-        throw Exception("ActionSet is empty.");
-
-    for (const auto& action : actionSet.set)
-        m_actionMap.emplace(action, std::make_shared<ActionType>());
-}
-
 const Actions::ActionInterface* Actions::ActionRegistry::FindAction(const Data::Action input) const {
     auto foudAction = m_actionMap.find(input);
 
@@ -53,8 +44,37 @@ const Actions::ActionInterface* Actions::ActionRegistry::FindAction(const Data::
 }
 
 void Actions::DrawALine::Execute(Data::Structure& structure, const Options::StructureBuilder& options) const {
-    structure.structure.end()->line.emplace_back(std::cos(structure.position.angle_deg * Data::Pi / 180) * options.vectorNorm_px, std::sin(structure.position.angle_deg * Data::Pi / 180) * options.vectorNorm_px);
+    structure.position.position += Data::Point(std::cos(structure.position.angle_deg * Data::Pi / 180) * options.vectorNorm_px, std::sin(structure.position.angle_deg * Data::Pi / 180) * options.vectorNorm_px);
+    structure.structure.back().line.push_back(structure.position.position);
+}
 
+void Actions::MoveForwardWithoutDrawing::Execute(Data::Structure& structure, const Options::StructureBuilder& options) const {
+    structure.position.position += Data::Point(std::cos(structure.position.angle_deg * Data::Pi / 180) * options.vectorNorm_px, std::sin(structure.position.angle_deg * Data::Pi / 180) * options.vectorNorm_px);
+}
+
+void Actions::DoNothing::Execute(Data::Structure& structure, const Options::StructureBuilder& options) const {
+    // literally do nothing :D
+}
+
+void Actions::RotateLeft::Execute(Data::Structure& structure, const Options::StructureBuilder& options) const {
+    structure.position.angle_deg += options.stepAngle_deg;
+}
+
+void Actions::RotateRight::Execute(Data::Structure& structure, const Options::StructureBuilder& options) const {
+    structure.position.angle_deg -= options.stepAngle_deg;
+}
+
+void Actions::Rotate180Deg::Execute(Data::Structure& structure, const Options::StructureBuilder& options) const {
+    structure.position.angle_deg += 180.0;
+}
+
+void Actions::SaveCurrentState::Execute(Data::Structure& structure, const Options::StructureBuilder& options) const {
+    structure.lifo.push_back(structure.position);
+}
+
+void Actions::MoveToLastSavedState::Execute(Data::Structure& structure, const Options::StructureBuilder& options) const {
+    structure.position = structure.lifo.back();
+    structure.lifo.pop_back();
 }
 
 // @TODO Finish basic operations

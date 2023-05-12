@@ -11,7 +11,7 @@ const Data::ActionSet DefaultOptions::Interpreter::rotate_180_deg = {'|'};
 const Data::ActionSet DefaultOptions::Interpreter::save_current_state = {'['};
 const Data::ActionSet DefaultOptions::Interpreter::move_to_last_saved_state = {']'};
 
-constinit double DefaultOptions::StructureBuilder::init_angle_deg = 0;
+constinit double DefaultOptions::StructureBuilder::init_angle_deg = 90;
 constinit double DefaultOptions::StructureBuilder::vector_norm_px = 10;
 constinit double DefaultOptions::StructureBuilder::step_angle_deg = 45;
 

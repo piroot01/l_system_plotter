@@ -1,12 +1,14 @@
+#include <cstdint>
 #include <hpdf.h>
+#include <hpdf_types.h>
 #include <sstream>
 #include <stdexcept>
 #include <string>
 #include <iostream>
 
-#include "HpdfApi.hpp"
-#include "Timer.hpp"
-#include "Colors.hpp"
+#include "LibHaruFacade/Colors.hpp"
+#include "LibHaruFacade/HpdfApi.hpp"
+#include "LSystemInterpreter/Data.hpp"
 
 Hpdf::Hpdf(const std::string& outName) : m_outName(outName) {
     m_pdf = HPDF_New(errorHandler, nullptr);
@@ -68,7 +70,7 @@ void Hpdf::errorHandler(HPDF_STATUS error_no, HPDF_STATUS detail_no, void* user_
     throw HpdfException(errorMessage.str());
 }
 
-void Painter::Line(const Point& a, const Point& b, const HPDF_REAL lineWidth, const Color& color, const HPDF_LineCap lineCap) {
+void Painter::Line(const LSystemInterpreter::Data::Point& a, const LSystemInterpreter::Data::Point& b, const HPDF_REAL lineWidth, const Color& color, const HPDF_LineCap lineCap) {
     HPDF_Page_SetLineWidth(*m_page, lineWidth);
     HPDF_Page_SetRGBStroke(*m_page, color.red, color.green, color.blue);
     HPDF_Page_SetLineCap(*m_page, lineCap);
@@ -78,8 +80,8 @@ void Painter::Line(const Point& a, const Point& b, const HPDF_REAL lineWidth, co
     HPDF_Page_Stroke(*m_page);
 };
 
-void Painter::Line(const std::vector<Point>& line, const HPDF_REAL lineWidth, const Color& color, const HPDF_LineCap lineCap, const HPDF_LineJoin lineJoin) {
-    if (line.empty())
+void Painter::Line(const std::vector<LSystemInterpreter::Data::Line>& structure, const HPDF_REAL lineWidth, const Color& color, const HPDF_LineCap lineCap, const HPDF_LineJoin lineJoin) {
+    if (structure.empty())
         return;
 
     HPDF_Page_SetLineWidth(*m_page, lineWidth);
@@ -87,13 +89,16 @@ void Painter::Line(const std::vector<Point>& line, const HPDF_REAL lineWidth, co
     HPDF_Page_SetLineCap(*m_page, lineCap);
     HPDF_Page_SetLineJoin(*m_page, lineJoin);
 
-    auto prevPoint = line.cbegin();
-    HPDF_Page_MoveTo(*m_page, prevPoint->x, prevPoint->y);
-    
+    HPDF_Point shift = {40.5, 11.7};
 
-    for (auto point = std::next(line.cbegin()); point != line.cend(); ++point) {
-        HPDF_Page_LineTo(*m_page, point->x, point->y);
-        prevPoint++;
+    HPDF_Point center = {HPDF_Page_GetWidth(*m_page) / 2, HPDF_Page_GetHeight(*m_page) / 2};
+
+    HPDF_Page_MoveTo(*m_page, center.x - shift.x, center.y - shift.y);
+
+    for (uint8_t i = 0; i < structure.size(); ++i) {
+        for (uint8_t j = 1; j < structure[i].line.size(); ++j) {
+            HPDF_Page_LineTo(*m_page, structure[i].line[j].x + center.x - shift.x, structure[i].line[j].y + center.y - shift.y);
+        }
     }
 
     HPDF_Page_Stroke(*m_page);

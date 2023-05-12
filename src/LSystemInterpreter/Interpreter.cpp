@@ -6,18 +6,18 @@
 #include "LSystemInterpreter/DefaultOptions.hpp"
 #include "LSystemInterpreter/Options.hpp"
 #include "LSystemInterpreter/Exception.hpp"
+#include "Actions.tcc"
 
 namespace LSystemInterpreter {
 
 Interpreter::StructureBuilder::StructureBuilder() {
     m_options = DefaultOptions::StructureBuilder();
-    m_structure.position.position = {0, 0};
-    m_structure.position.angle_deg = m_options.initAngle_deg;
-    m_structure.structure.emplace_back(Data::Line(Data::Point(0, 0)));
+    InitializeStructure();
 }
 
 Interpreter::StructureBuilder::StructureBuilder(const Options::StructureBuilder& options) {
     m_options = options;
+    InitializeStructure();
 }
 
 const Data::Structure& Interpreter::StructureBuilder::GetStructure() const {
@@ -37,9 +37,22 @@ void Interpreter::StructureBuilder::LoadRegistry(const Actions::ActionRegistry& 
     m_actions = &registry;
 }
 
+void Interpreter::StructureBuilder::InitializeStructure() {
+    m_structure.position.position = {0, 0};
+    m_structure.position.angle_deg = m_options.initAngle_deg;
+    m_structure.structure.emplace_back(Data::Line(Data::Point(0, 0)));
+}
+
 Interpreter::Interpreter::Interpreter(const std::shared_ptr<const Data::RawLSystem>& rawLSystem)
     : m_rawLSystem(rawLSystem) {
     m_actions.Register<Actions::DrawALine>(DefaultOptions::Interpreter::draw_a_line);
+    m_actions.Register<Actions::MoveForwardWithoutDrawing>(DefaultOptions::Interpreter::move_forward_without_drawing);
+    m_actions.Register<Actions::DoNothing>(DefaultOptions::Interpreter::do_nothing);
+    m_actions.Register<Actions::RotateLeft>(DefaultOptions::Interpreter::rotate_left);
+    m_actions.Register<Actions::RotateRight>(DefaultOptions::Interpreter::rotate_right);
+    m_actions.Register<Actions::Rotate180Deg>(DefaultOptions::Interpreter::rotate_180_deg);
+    m_actions.Register<Actions::SaveCurrentState>(DefaultOptions::Interpreter::save_current_state);
+    m_actions.Register<Actions::MoveToLastSavedState>(DefaultOptions::Interpreter::move_to_last_saved_state);
 
     // @TODO Do other actions
 }
@@ -47,6 +60,13 @@ Interpreter::Interpreter::Interpreter(const std::shared_ptr<const Data::RawLSyst
 Interpreter::Interpreter::Interpreter(const std::shared_ptr<const Data::RawLSystem>& rawLSystem, const Options::Interpreter& options)
     : m_rawLSystem(rawLSystem) {
     m_actions.Register<Actions::DrawALine>(options.drawALine);
+    m_actions.Register<Actions::MoveForwardWithoutDrawing>(options.moveForwardWithoutDrawing);
+    m_actions.Register<Actions::DoNothing>(options.doNothing);
+    m_actions.Register<Actions::RotateLeft>(options.rotateLeft);
+    m_actions.Register<Actions::RotateRight>(options.rotateRight);
+    m_actions.Register<Actions::Rotate180Deg>(options.rotate180Deg);
+    m_actions.Register<Actions::SaveCurrentState>(options.saveCurrentState);
+    m_actions.Register<Actions::MoveToLastSavedState>(options.moveToLastSavedState);
 
     // @TODO Do other actions
 }

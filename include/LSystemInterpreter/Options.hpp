@@ -9,22 +9,31 @@ namespace Options {
 
 class StructureBuilder {
 public:
+    StructureBuilder();
+    ~StructureBuilder();
+
+    StructureBuilder(const StructureBuilder& other);
+
+    StructureBuilder& operator=(const DefaultOptions::StructureBuilder& other);
+    StructureBuilder& operator=(const Options::StructureBuilder& other);
+
+public:
     double initAngle_deg;
     double vectorNorm_px;
     double stepAngle_deg;
-
-    StructureBuilder& operator=(const DefaultOptions::StructureBuilder& lhs);
-    StructureBuilder& operator=(const Options::StructureBuilder& lhs);
-
-    // @TODO Add assign and move operator
 
 };
 
 class Interpreter {
 public:
     Data::ActionSet drawALine;
-
-    // @TODO Rest of options
+    Data::ActionSet moveForwardWithoutDrawing;
+    Data::ActionSet doNothing;
+    Data::ActionSet rotateLeft;
+    Data::ActionSet rotateRight;
+    Data::ActionSet rotate180Deg;
+    Data::ActionSet saveCurrentState;
+    Data::ActionSet moveToLastSavedState;
 
 };
 

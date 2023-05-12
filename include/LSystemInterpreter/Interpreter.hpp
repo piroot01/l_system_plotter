@@ -24,6 +24,7 @@ public:
 private:
     void Execute(const Data::Action action);
     void LoadRegistry(const Actions::ActionRegistry& registry);
+    void InitializeStructure();
 
 private:
     const Actions::ActionRegistry* m_actions;
