@@ -8,7 +8,7 @@ namespace DefaultOptions {
 
 class Interpreter {
 public:
-    static const Data::ActionSet draw_a_line;
+	static const Data::ActionSet draw_a_line;
     static const Data::ActionSet move_forward_without_drawing;
     static const Data::ActionSet do_nothing;
     static const Data::ActionSet rotate_left;

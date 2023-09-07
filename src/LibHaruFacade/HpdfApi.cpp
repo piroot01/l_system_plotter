@@ -89,15 +89,11 @@ void Painter::Line(const std::vector<LSystemInterpreter::Data::Line>& structure,
     HPDF_Page_SetLineCap(*m_page, lineCap);
     HPDF_Page_SetLineJoin(*m_page, lineJoin);
 
-    HPDF_Point shift = {40.5, 11.7};
-
-    HPDF_Point center = {HPDF_Page_GetWidth(*m_page) / 2, HPDF_Page_GetHeight(*m_page) / 2};
-
-    HPDF_Page_MoveTo(*m_page, center.x - shift.x, center.y - shift.y);
+    HPDF_Page_MoveTo(*m_page, structure[0].line[0].x, structure[0].line[0].y);
 
     for (uint8_t i = 0; i < structure.size(); ++i) {
         for (uint8_t j = 1; j < structure[i].line.size(); ++j) {
-            HPDF_Page_LineTo(*m_page, structure[i].line[j].x + center.x - shift.x, structure[i].line[j].y + center.y - shift.y);
+            HPDF_Page_LineTo(*m_page, structure[i].line[j].x, structure[i].line[j].y);
         }
     }
 

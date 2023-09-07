@@ -47,7 +47,7 @@ Interpreter::Interpreter::Interpreter(const std::shared_ptr<const Data::RawLSyst
     : m_rawLSystem(rawLSystem) {
     m_actions.Register<Actions::DrawALine>(DefaultOptions::Interpreter::draw_a_line);
     m_actions.Register<Actions::MoveForwardWithoutDrawing>(DefaultOptions::Interpreter::move_forward_without_drawing);
-    m_actions.Register<Actions::DoNothing>(DefaultOptions::Interpreter::do_nothing);
+	m_actions.Register<Actions::DoNothing>(DefaultOptions::Interpreter::do_nothing);
     m_actions.Register<Actions::RotateLeft>(DefaultOptions::Interpreter::rotate_left);
     m_actions.Register<Actions::RotateRight>(DefaultOptions::Interpreter::rotate_right);
     m_actions.Register<Actions::Rotate180Deg>(DefaultOptions::Interpreter::rotate_180_deg);
